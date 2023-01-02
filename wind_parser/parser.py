@@ -1,5 +1,5 @@
 import sys
-from typing import Dict, List
+from typing import Dict, List, Union
 
 class Parser(dict):
     """
@@ -19,7 +19,7 @@ class Parser(dict):
         Your name is John
         """
 
-    def __init__(self, args=sys.argv) -> Dict[str, str | List]:
+    def __init__(self, args=sys.argv) -> Dict[str, Union[str, List]]:
         self._args = args[1:]
         self.args = {}
 
