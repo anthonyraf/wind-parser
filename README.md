@@ -36,7 +36,7 @@ Then you can run in your terminal:
     $ python command.py --name=John --age=32 --hobbies Football Basketball Cinema --verbose
 Output:
 
-    {'name':'John', 'age':'32', 'hobbies': ['Football', 'Basketball', 'Cinema', 'verbose':True]}
+    {'name':'John', 'age':'32', 'hobbies': ['Football', 'Basketball', 'Cinema'],  'verbose':True}
 To access the value of an argument, you can choose between:
 
 - Use dictionary key access: 
