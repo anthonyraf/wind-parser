@@ -10,7 +10,7 @@
 Installation with **pip** : 
 
     $ pip install wind-parser
-
+    
 ## Usage
 
 After installing wind-parser you can just instantiate the Parser class with `sys.argv` as argument (`sys.argv` isn't required but it's better for the code clarity)
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 > : You can also use `p.args` for printing the dictionary
 
 
-Then you can run in your terminal
+Then you can run in your terminal:
     
     $ python command.py --name=John --age=32 --hobbies Football Basketball Cinema --verbose
 Output:
