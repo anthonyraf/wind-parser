@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "wind-parser"
 version = "0.1.0"
-description = "Python Wind Parser is a parser used to retrieve and manipulate arguments for command line interfaces"
+description = "Python wind parser is a parser used to retrieve arguments for command line interfaces and turn them into python dictionary"
 authors = ["Anthony Rafidison <benjaraf006@gmail.com>"]
 license = "Apache-2.0"
 readme = "README.md"
