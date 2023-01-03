@@ -1,2 +1,69 @@
 # Wind Parser ![Python versions badge](https://img.shields.io/pypi/pyversions/wind-parser)
-*Python wind parser is a parser used to retrieve and manipulate arguments for command line interfaces.*
+
+*Python wind parser is a parser used to retrieve arguments for command line interfaces and turn them into python dictionary.*
+
+- Wind parser has a very simple and easy use
+- Wind parser supports keyword arguments, flags and keyword arguments that accept lists
+
+## Installation
+
+Installation with **pip** : 
+
+    $ pip install wind-parser
+
+## Usage
+
+After installing wind-parser you can just instantiate the Parser class with `sys.argv` as argument (`sys.argv` isn't required but it's better for the code clarity)
+
+Here is an example of how the parser is used:
+```python
+# command.py
+
+import sys
+from wind_parser import Parser
+
+parser = Parser(sys.argv) # This variable stores the arguments with their values in a python dictionary
+ 
+if __name__ == '__main__':
+    print(parser) # Print the dictionary
+```
+> **Note**
+> : You can also use `p.args` for printing the dictionary
+
+
+Then you can run in your terminal
+    
+    $ python command.py --name=John --age=32 --hobbies Football Basketball Cinema --verbose
+Output:
+
+    {'name':'John', 'age':'32', 'hobbies': ['Football', 'Basketball', 'Cinema', 'verbose':True]}
+To access the value of an argument, you can choose between:
+
+- Use dictionary key access: 
+```python
+print(p['name'])
+# or
+print(p.args['name'])
+```
+- Use class attribute access:
+```python
+print(p.name)
+```
+> **Note**
+> : With this method, you will not be able to retrieve arguments with a `-` in its name.
+
+## Specifications
+The different types of arguments supported:
+
+- Keyword argument : `-a 1`, `--a=1`, `-a item1 item2 item 3`
+- Flag : `--verbose`, `-v`, `--help`
+
+
+Here are the types of the different possible values depending on the type of argument:
+
+| Arguments | Python type|
+|-----------|-----|
+|`--name=John` or `--age 16`| str |
+|`--verbose` or `-v` | bool (always True) |
+|`--files main.py m.cfg` | list[str]
+
