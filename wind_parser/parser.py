@@ -1,6 +1,22 @@
 import sys
 from typing import Dict, List, Union
 
+class Option:
+    """Base class for command line options"""
+    def __init__(self, name, value):
+        self.name = name
+        self.value = value
+
+class Argument(Option):
+    """Class for keyword arguments"""
+    def __init__(self, name, value):
+        super().__init__(name, value)
+
+class Flag(Option):
+    """Class for flags"""
+    def __init__(self, name):
+        super().__init__(name, True)
+
 class Parser(dict):
     """
     Parse arguments from script call
@@ -50,6 +66,20 @@ class Parser(dict):
             result.append(tmp)
 
         return result
+
+    def delete_prefix(self, arg: str) -> str:
+        """Delete the prefix of an argument"""
+        if arg.startswith('--'):
+            return arg[2:]
+        elif arg.startswith('-'):
+            return arg[1:]
+
+    def parse_flag(self) -> None:
+        """Parse the arguments that are flags"""
+        ...
+    
+    def parse_arguments(self) -> None:
+        ...
 
     def parse_values(self) -> None:
         """Parses the argument list and transposes the values and keys into a dictionary"""
