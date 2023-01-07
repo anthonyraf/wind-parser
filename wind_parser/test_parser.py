@@ -1,6 +1,6 @@
 import sys
 import unittest
-from .parser import Parser
+from .parser import Parser, Argument
 
 
 class parserTestCase(unittest.TestCase):
@@ -27,6 +27,13 @@ class parserTestCase(unittest.TestCase):
 
         self.assertEqual(p.args,
                          {'name': 'Anthony', 'age': '16', 'verbose': True, 'list': ['Paul', 'Célia', 'Mathieu'], 'logging': True, 'l': ['this', 'for', 'while'],'test1':True, 'test2':True, 'z':'16'})
+
+class argumentTestCase(unittest.TestCase):
+    def test_argument(self):
+        self.assertTrue(Argument("-v").is_key())
+        self.assertTrue(Argument("--help").is_key())
+        self.assertTrue(Argument("-a=16").is_kwarg())
+        self.assertTrue(Argument([1,2,3]).is_value())
 
 if __name__ == '__main__':
     unittest.main()

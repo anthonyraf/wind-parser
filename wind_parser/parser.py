@@ -1,6 +1,33 @@
 import sys
 from typing import Dict, List, Union
 
+class Argument:
+    def __init__(self, arg):
+        assert isinstance(arg, (str, list)), f"Argument must be a string or a list not {type(arg)}"
+        self.arg = arg
+
+    def is_key(self):
+        """Check if the argument is a key"""
+        if isinstance(self.arg,str):
+            return self.arg.startswith('--') or self.arg.startswith('-')
+        else:
+            return False
+
+    def is_kwarg(self):
+        """Check if the argument is a key directly followed by a value after the '=' sign"""
+        return isinstance(self.arg, str) and '=' in self.arg
+
+    def is_value(self):
+        """Check if the argument is a value"""
+        return not self.is_key()
+    
+    def remove_prefix(self):
+        """Delete the prefix of an argument"""
+        if self.arg.startswith('--'):
+            return self.arg[2:]
+        elif self.arg.startswith('-'):
+            return self.arg[1:]
+
 class Parser(dict):
     """
     Parse arguments from script call
@@ -22,10 +49,13 @@ class Parser(dict):
     def __init__(self, args=sys.argv) -> Dict[str, Union[str, List]]:
         self._args = args[1:]
         self.args = {}
+        if self._args[0][0] != '-':
+            self.args['subcommand'] = self._args[0]
+            del self._args[0]
 
         if self._args:
             self.parse_values()
-            # Transfrom the Parser class into a dictionary
+            # Transfrom the Parser instance into a dictionary
             super().__init__(self.args)
             # Set arguments as class attributes
             for arg in self.args:
@@ -33,7 +63,7 @@ class Parser(dict):
 
     def separate_args(self) -> List[List]:
         """Separate arguments by storing lists of values given to a key in lists
-        ex: separate_args(['-l', 'a','b','c']) -> ['-l', ['a', 'b', 'c']]  
+        ex: separate_args(['-l', 'a','b','c']) -> ['-l', ['a', 'b', 'c']]
         """
         result = []
         tmp = []
@@ -51,39 +81,33 @@ class Parser(dict):
 
         return result
 
-    def parse_values(self) -> None:
+    def parse_values(self):
         """Parses the argument list and transposes the values and keys into a dictionary"""
         args = self.separate_args()
+        args = [Argument(arg) for arg in args] # Convert the list of arguments into a list of Argument objects
 
-        for i in range(len(args)):
-            if '=' in args[i] and isinstance(args[i], str):
-                _ = args[i].split('=')
-                self.args[_[0][2:] if _[0].startswith(
-                    '--') else _[0][1:]] = _[1]
-
-            elif i < len(args)-1:
-                if isinstance(args[i], str):
-                    if args[i].startswith('--') or args[i].startswith('-'):
-                        if isinstance(args[i+1], list):
-                            self.args[args[i][2:] if args[i].startswith(
-                                '--') else args[i][1:]] = args[i+1]
-                        else:
-                            self.args[args[i][2:] if args[i].startswith(
-                                '--') else args[i][1:]] = True
-
-        if isinstance(args[-1], str) and (args[-1].startswith('--') or args[-1].startswith('-')):
-            self.args[args[-1][2:]
-                      if args[-1].startswith('--') else args[-1][1:]] = True
-
+        key = None # Temporary key
+        for arg in args:
+            _arg = arg.remove_prefix() if arg.is_key() else arg.arg
+            if arg.is_kwarg():
+                key, value = _arg.split('=')
+                self.args[key] = value
+            elif arg.is_key():
+                key = _arg
+                self.args[key] = True
+            elif key is not None:
+                self.args[key] = _arg
+                key = None
+            else:
+                self.args[_arg] = True
+        
         for arg in self.args.copy():
             if isinstance(self.args[arg], list) and len(self.args[arg]) == 1:
                 self.args[arg] = self.args[arg][0]
 
-
 if __name__ == '__main__':
-    sys.argv = ['python', ' --name=Anthony', '--age=16', '--verbose',
+    sys.argv = ['python', '--name=Anthony', '--age=16', '--verbose',
                 '--list', 'Paul', 'Célia', 'Mathieu', '--logging', '-l', 'this', 'for', 'while', '-i', '16']
 
     p = Parser(sys.argv)
-    print(p.args)
     print(p)
