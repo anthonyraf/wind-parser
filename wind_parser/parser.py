@@ -49,6 +49,9 @@ class Parser(dict):
     def __init__(self, args=sys.argv) -> Dict[str, Union[str, List]]:
         self._args = args[1:]
         self.args = {}
+        if self._args[0][0] != '-':
+            self.args['subcommand'] = self._args[0]
+            del self._args[0]
 
         if self._args:
             self.parse_values()
@@ -103,7 +106,7 @@ class Parser(dict):
                 self.args[arg] = self.args[arg][0]
 
 if __name__ == '__main__':
-    sys.argv = ['python', ' --name=Anthony', '--age=16', '--verbose',
+    sys.argv = ['python','benja', '--name=Anthony', '--age=16', '--verbose',
                 '--list', 'Paul', 'Célia', 'Mathieu', '--logging', '-l', 'this', 'for', 'while', '-i', '16']
 
     p = Parser(sys.argv)
