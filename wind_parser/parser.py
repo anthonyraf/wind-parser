@@ -106,7 +106,7 @@ class Parser(dict):
                 self.args[arg] = self.args[arg][0]
 
 if __name__ == '__main__':
-    sys.argv = ['python','benja', '--name=Anthony', '--age=16', '--verbose',
+    sys.argv = ['python', '--name=Anthony', '--age=16', '--verbose',
                 '--list', 'Paul', 'Célia', 'Mathieu', '--logging', '-l', 'this', 'for', 'while', '-i', '16']
 
     p = Parser(sys.argv)
