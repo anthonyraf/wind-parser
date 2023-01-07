@@ -3,7 +3,7 @@ from typing import Dict, List, Union
 
 class Argument:
     def __init__(self, arg):
-        assert isinstance(arg, Union[str, list]), f"Argument must be a string or a list not {type(arg)}"
+        assert isinstance(arg, (str, list)), f"Argument must be a string or a list not {type(arg)}"
         self.arg = arg
 
     def is_key(self):
