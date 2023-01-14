@@ -8,5 +8,6 @@
     ],
     "python.testing.pytestEnabled": false,
     "python.testing.unittestEnabled": true,
-    "python.linting.enabled": false
+    "python.linting.enabled": false,
+    "python.analysis.typeCheckingMode": "basic"
 }
