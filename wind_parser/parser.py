@@ -1,9 +1,10 @@
 import sys
-from typing import Dict, List, Any, Union, NoReturn
+from typing import List, Any, Union
 
 class Argument:
     def __init__(self, arg: Union[str, List[str]]):
-        assert isinstance(arg, (str, list)), f"Argument must be a string or a list not {type(arg)}"
+        if not isinstance(arg, (str, list)):
+            raise TypeError(f"Argument must be str or list not {type(arg).__name__}")
         self.arg = arg
 
     def is_key(self):
