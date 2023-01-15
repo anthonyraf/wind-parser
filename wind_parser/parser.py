@@ -1,8 +1,8 @@
 import sys
-from typing import Dict, List, Union
+from typing import Dict, List, Any, Union, NoReturn
 
 class Argument:
-    def __init__(self, arg):
+    def __init__(self, arg: Union[str, List[str]]):
         assert isinstance(arg, (str, list)), f"Argument must be a string or a list not {type(arg)}"
         self.arg = arg
 
@@ -46,7 +46,7 @@ class Parser(dict):
         Your name is John
         """
 
-    def __init__(self, args=sys.argv) -> Dict[str, Union[str, List]]:
+    def __init__(self, args: List[str]=sys.argv):
         self._args = args[1:]
         self.args = {}
         if self._args[0][0] != '-':
@@ -65,8 +65,8 @@ class Parser(dict):
         """Separate arguments by storing lists of values given to a key in lists
         ex: separate_args(['-l', 'a','b','c']) -> ['-l', ['a', 'b', 'c']]
         """
-        result = []
-        tmp = []
+        result: List[Any] = []
+        tmp: List[str] = []
         for arg in self._args:
             arg = arg.strip()
             if arg.startswith('--') or arg.startswith('-'):
