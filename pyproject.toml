@@ -6,6 +6,9 @@ authors = ["Anthony Rafidison <benjaraf006@gmail.com>"]
 license = "Apache-2.0"
 readme = "README.md"
 packages = [{include = "wind_parser"}]
+repository = "https://github.com/anthonyraf/wind-parser"
+keywords = ["cli", "parser"]
+
 
 [tool.poetry.dependencies]
 python = ">=3.8"
