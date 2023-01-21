@@ -27,6 +27,12 @@ def test_parse_values():
 
     assert p.args == {'name': 'Anthony', 'age': '16', 'verbose': True, 'list': ['Paul', 'Célia', 'Mathieu'], 'logging': True, 'l': ['this', 'for', 'while'],'test1':True, 'test2':True, 'z':'16'}
 
+# Test when there is no argument provided
+def test_no_argument():
+    sys.argv = ['python']
+    p = Parser(sys.argv)
+
+    assert p.args == {}
 
 # Test the Argument class
 def test_argument():
