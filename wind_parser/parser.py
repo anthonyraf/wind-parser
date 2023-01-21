@@ -50,8 +50,9 @@ class Parser(dict):
     def __init__(self, args: List[str]=sys.argv):
         self._args = args[1:]
         self.args = {}
-        if self._args[0][0] != '-':
-            self.args['subcommand'] = self._args[0]
+
+        if self._args and self._args[0][0] != '-':
+            setattr(self,'subcommand', self._args[0])
             del self._args[0]
 
         if self._args:
