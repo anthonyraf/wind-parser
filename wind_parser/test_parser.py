@@ -34,6 +34,16 @@ def test_no_argument():
 
     assert p.args == {}
 
+def test_subcommand():
+    sys.argv = ['python', 'config']
+    p = Parser(sys.argv)
+
+    assert p.subcommand == 'config'
+    assert 'config' not in p.args
+
+    with pytest.raises(KeyError):
+        p['subcommand']
+
 # Test the Argument class
 def test_argument():
     assert Argument("-v").is_key()
