@@ -5,17 +5,14 @@ from .parser import Parser, Argument
 
 # Test separate_arguments method of Parser class
 def test_separate_arguments():
-    new_func()
+    sys.argv = ['python', '--name=Anthony', '--age=16', '--verbose', '--list=Paul,Célia,Mathieu', '--logging', '-l', 'this,for,while']
 
     p = Parser(sys.argv)
     print(p.separate_args())
 
-    assert p.separate_args() == ['--name=Anthony', '--age=16', '--verbose', '--list', ['Paul', 'Célia', 'Mathieu'], '--logging', '-l', ['this', 'for', 'while']] 
+    assert p.separate_args() == ['--name=Anthony', '--age=16', '--verbose', '--list', ['Paul', 'Célia', 'Mathieu'], '--logging', '-l', ['this', 'for', 'while']]    
 
-def new_func():
-    sys.argv = ['python', '--name=Anthony', '--age=16', '--verbose', '--list=Paul,Célia,Mathieu', '--logging', '-l', 'this,for,while']   
-
-
+https://github.com/anthonyraf/wind-parser/issues/8
 # Test the parse_values method of the Parser class
 def test_parse_values():
     sys.argv = ['python', '--name=Anthony', '--age=16', '--verbose',
