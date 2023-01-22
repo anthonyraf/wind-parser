@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
 Then you can run in your terminal:
     
-    $ python command.py --name=John --age=32 --hobbies Football Basketball Cinema --verbose
+    $ python command.py --name=John --age=32 --hobbies Football,Basketball,Cinema --verbose
 Output:
 
     {'name':'John', 'age':'32', 'hobbies': ['Football', 'Basketball', 'Cinema'],  'verbose':True}
@@ -55,7 +55,7 @@ print(p.name)
 ## Specifications
 The different types of arguments supported:
 
-- Keyword argument : `-a 1`, `--a=1`, `-a item1 item2 item 3`
+- Keyword argument : `-a 1`, `--a=1`, `-a item1,item2,item3`
 - Flag : `--verbose`, `-v`, `--help`
 
 
@@ -65,5 +65,5 @@ Here are the types of the different possible values depending on the type of arg
 |-----------|-----|
 |`--name=John` or `--age 16`| str |
 |`--verbose` or `-v` | bool (always True) |
-|`--files main.py m.cfg` | list[str]
+|`--files main.py,m.cfg,test.txt` | list[str]
 
