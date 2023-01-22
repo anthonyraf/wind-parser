@@ -12,7 +12,6 @@ def test_separate_arguments():
 
     assert p.separate_args() == ['--name=Anthony', '--age=16', '--verbose', '--list', ['Paul', 'Célia', 'Mathieu'], '--logging', '-l', ['this', 'for', 'while']]    
 
-https://github.com/anthonyraf/wind-parser/issues/8
 # Test the parse_values method of the Parser class
 def test_parse_values():
     sys.argv = ['python', '--name=Anthony', '--age=16', '--verbose',
