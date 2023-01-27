@@ -50,7 +50,9 @@ class Parser(dict):
         Your name is John
     """
 
-    def __init__(self, args: List[str] = sys.argv):
+    def __init__(self, args: List[str] = None):
+        if args is None:
+            args = sys.argv
         self._args = args[1:]
         self.args = {}
 
