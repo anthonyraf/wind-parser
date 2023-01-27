@@ -67,7 +67,6 @@ class Parser(dict):
             for arg in self.args:
                 setattr(self, arg, self.args[arg])
 
-    #     return result
 
     def separate_args(self):
         result = []
