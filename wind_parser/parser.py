@@ -63,23 +63,6 @@ class Parser(dict):
             for arg in self.args:
                 setattr(self, arg, self.args[arg])
 
-    # def separate_args(self) -> List[List]:
-    #     """Separate arguments by storing lists of values given to a key in lists
-    #     ex: separate_args(['-l', 'a','b','c']) -> ['-l', ['a', 'b', 'c']]
-    #     """
-    #     result: List[Any] = []
-    #     tmp: List[str] = []
-    #     for arg in self._args:
-    #         arg = arg.strip()
-    #         if arg.startswith('--') or arg.startswith('-'):
-    #             if tmp != []:
-    #                 result.append(tmp)
-    #                 tmp = []
-    #             result.append(arg)
-    #         else:
-    #             tmp.append(arg)
-    #     if tmp:
-    #         result.append(tmp)
 
     #     return result
     
