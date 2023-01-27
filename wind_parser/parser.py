@@ -14,8 +14,7 @@ class Argument:
         """Check if the argument is a key"""
         if isinstance(self.arg, str):
             return self.arg.startswith("--") or self.arg.startswith("-")
-        else:
-            return False
+        return False
 
     def is_kwarg(self):
         """Check if the argument is a key directly followed by a value after the '=' sign"""
@@ -29,7 +28,7 @@ class Argument:
         """Delete the prefix of an argument"""
         if self.arg.startswith("--"):
             return self.arg[2:]
-        elif self.arg.startswith("-"):
+        if self.arg.startswith("-"):
             return self.arg[1:]
 
 
