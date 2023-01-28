@@ -1,5 +1,5 @@
 # Wind Parser 
-![Python versions badge](https://img.shields.io/pypi/pyversions/wind-parser) [![Python package](https://github.com/anthonyraf/wind-parser/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/anthonyraf/wind-parser/actions/workflows/python-package.yml)
+![Python versions badge](https://img.shields.io/pypi/pyversions/wind-parser) [![Python package](https://github.com/anthonyraf/wind-parser/actions/workflows/python-package.yml/badge.svg?branch=main)](https://github.com/anthonyraf/wind-parser/actions/workflows/python-package.yml) [![DeepSource](https://deepsource.io/gh/anthonyraf/wind-parser.svg/?label=active+issues&show_trend=true&token=_GxN7KijEstuTXJ7QC8Q0vGb)](https://deepsource.io/gh/anthonyraf/wind-parser/?ref=repository-badge)
 
 *Python wind parser is a parser used to retrieve arguments for command line interfaces and turn them into python dictionary.*
 
