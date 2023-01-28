@@ -1,5 +1,6 @@
 import sys
 from typing import Any, List, Union
+from .utils import *
 
 
 class Argument:
@@ -83,7 +84,8 @@ class Parser(dict):
                 result.append(arg.split(","))
             else:
                 result.append(arg)
-        return list(filter(bool, result))
+        
+        return remove_empty_strings(result)
 
     def parse_values(self):
         """Parses the argument list and transposes the values and keys into a dictionary"""
