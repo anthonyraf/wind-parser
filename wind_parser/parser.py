@@ -1,5 +1,6 @@
 import sys
 from typing import Any, List, Union
+
 from .utils import *
 
 
@@ -84,7 +85,7 @@ class Parser(dict):
                 result.append(arg.split(","))
             else:
                 result.append(arg)
-        
+
         return remove_empty_strings(result)
 
     def parse_values(self):
