@@ -4,11 +4,9 @@ from .utils import *
 
 
 class Argument:
-
     def __init__(self, arg: Union[str, List[str]]):
         if not isinstance(arg, (str, list)):
-            raise TypeError(
-                f"Argument must be str or list not {type(arg).__name__}")
+            raise TypeError(f"Argument must be str or list not {type(arg).__name__}")
         self.arg = arg
 
     def is_key(self):

@@ -1,4 +1,3 @@
-
 def remove_empty_strings(lst):
     """
     Remove empty strings in a list that can contains sublists and remove the sublists if they are empty
