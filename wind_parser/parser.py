@@ -83,7 +83,7 @@ class Parser(dict):
                 result.append(arg.split(","))
             else:
                 result.append(arg)
-        return result
+        return list(filter(bool, result))
 
     def parse_values(self):
         """Parses the argument list and transposes the values and keys into a dictionary"""
