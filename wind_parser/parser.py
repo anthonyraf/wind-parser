@@ -110,26 +110,3 @@ class Parser(dict):
         for arg in self.args.copy():
             if isinstance(self.args[arg], list) and len(self.args[arg]) == 1:
                 self.args[arg] = self.args[arg][0]
-
-
-if __name__ == "__main__":
-    sys.argv = [
-        "python",
-        "--name=Anthony",
-        "--age=16",
-        "--verbose",
-        "--list",
-        "Paul",
-        "Célia",
-        "Mathieu",
-        "--logging",
-        "-l",
-        "this",
-        "for",
-        "while",
-        "-i",
-        "16",
-    ]
-
-    p = Parser(sys.argv)
-    print(p)
