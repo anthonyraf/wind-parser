@@ -2,8 +2,7 @@ import sys
 
 import pytest
 
-from .parser import Argument
-from .parser import Parser
+from .parser import Argument, Parser
 
 
 # Test separate_arguments method of Parser class
