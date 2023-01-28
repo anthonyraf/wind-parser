@@ -73,6 +73,10 @@ def test_parse_values():
         "z": "16",
     }
 
+def test_messy_list():
+    sys.argv = ["python", "-l", ",item1,,item2,,,item3,"]
+    p = Parser(sys.argv)
+    assert p.args == {"l": ["item1", "item2", "item3"]} 
 
 # Test when there is no argument provided
 def test_no_argument():
