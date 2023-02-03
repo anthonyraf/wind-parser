@@ -1,37 +1,46 @@
+import re
 import sys
-from typing import Any, List, Union
+from typing import Any, Dict, List, Union
 
 from .utils import *
 
 
-class Argument:
+class Argument(str):
 
-    def __init__(self, arg: Union[str, List[str]]):
-        if not isinstance(arg, (str, list)):
-            raise TypeError(
-                f"Argument must be str or list not {type(arg).__name__}")
-        self.arg = arg
+    def __init__(self, arg):
+        super().__init__()
 
-    def is_key(self):
-        """Check if the argument is a key"""
-        if isinstance(self.arg, str):
-            return self.arg.startswith("--") or self.arg.startswith("-")
-        return False
+    def is_list(self) -> bool:
+        return "," in self
 
-    def is_kwarg(self):
-        """Check if the argument is a key directly followed by a value after the '=' sign"""
-        return isinstance(self.arg, str) and "=" in self.arg
+    def is_kwarg(self) -> bool:
+        separator = "=" in self or " " in self
+        return separator and not self.is_list()
 
-    def is_value(self):
-        """Check if the argument is a value"""
-        return not self.is_key()
+    def is_flag(self) -> bool:
+        return self.startswith("-") and not self.is_kwarg()
 
-    def remove_prefix(self):
-        """Delete the prefix of an argument"""
-        if self.arg.startswith("--"):
-            return self.arg[2:]
-        if self.arg.startswith("-"):
-            return self.arg[1:]
+    def remove_prefix(self) -> str:
+        return self.lstrip("-")
+
+    def render_list(self) -> Dict[str, List]:
+        if "=" in self:
+            _ = self.remove_prefix().split("=")
+        else:
+            _ = self.remove_prefix().split(" ")
+
+        return {_[0]: remove_empty_strings(_[1].split(","))}
+
+    def render_kwarg(self) -> Dict[str, str]:
+        if "=" in self:
+            _ = self.remove_prefix().split("=")
+        else:
+            _ = self.remove_prefix().split(" ")
+
+        return {_[0]: _[1]}
+
+    def render_flag(self) -> Dict[str, bool]:
+        return {self.remove_prefix(): True}
 
 
 class Parser(dict):
@@ -70,23 +79,20 @@ class Parser(dict):
             for arg in self.args:
                 setattr(self, arg, self.args[arg])
 
-    def separate_args(self):
-        result = []
-        for arg in self._args:
-            arg = arg.strip()
-            if arg.startswith("-"):  # or "--"
-                if "=" in arg and "," in arg:  # ex: --list=item1,item2,item3
-                    _tmp = arg.split("=")
-                    result.append(_tmp[0])
-                    result.append(_tmp[1].split(","))
-                else:
-                    result.append(arg)
-            elif "," in arg:
-                result.append(arg.split(","))
-            else:
-                result.append(arg)
+    def separate_args(self) -> List[str]:
+        """
+        Separate arguments directly from sys.argv and return a list of key with its value(s) or just a key if it's a flag
 
-        return remove_empty_strings(result)
+        Returns
+        -------
+        List[str]
+            A list of arguments.
+            ex : ['--name=John', '--age 32', '-v', '--list=item1,item2,item3']
+        """
+        pattern = re.compile(
+            r"(--\w+(?:=|\s+)[\w,]+|-\w+(?:=|\s+)[\w,]+|--\w+)")
+        args = pattern.findall(" ".join(self._args))
+        return args
 
     def parse_values(self):
         """Parses the argument list and transposes the values and keys into a dictionary"""
@@ -95,21 +101,16 @@ class Parser(dict):
             Argument(arg) for arg in args
         ]  # Convert the list of arguments into a list of Argument objects
 
-        key = None  # Temporary key
         for arg in args:
-            _arg = arg.remove_prefix() if arg.is_key() else arg.arg
-            if arg.is_kwarg():
-                key, value = _arg.split("=")
-                self.args[key] = value
-            elif arg.is_key():
-                key = _arg
-                self.args[key] = True
-            elif key is not None:
-                self.args[key] = _arg
-                key = None
-            else:
-                self.args[_arg] = True
+            if arg.is_list():
+                self.args |= arg.render_list()
+            elif arg.is_kwarg():
+                self.args |= arg.render_kwarg()
+            elif arg.is_flag():
+                self.args |= arg.render_flag()
 
-        for arg in self.args.copy():
-            if isinstance(self.args[arg], list) and len(self.args[arg]) == 1:
-                self.args[arg] = self.args[arg][0]
+
+if __name__ == "__main__":
+    p = Parser(sys.argv)
+    print(p.age)
+    # print(f"Your name is %s"%p.name)
