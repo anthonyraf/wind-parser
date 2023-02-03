@@ -27,7 +27,7 @@ def test_separate_arguments():
         "--verbose",
         "--list=Paul,Célia,Mathieu",
         "--logging",
-        "-l this,for,while"
+        "-l this,for,while",
     ]
 
 

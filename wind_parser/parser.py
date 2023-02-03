@@ -1,45 +1,48 @@
-import sys
 import re
-from typing import Any, List, Union, Dict
+import sys
+from typing import Any, Dict, List, Union
+
 from .utils import *
 
 
 class Argument(str):
+
     def __init__(self, arg):
         super().__init__()
 
     def is_list(self) -> bool:
         return "," in self
-    
+
     def is_kwarg(self) -> bool:
         separator = "=" in self or " " in self
         return separator and not self.is_list()
-    
+
     def is_flag(self) -> bool:
         return self.startswith("-") and not self.is_kwarg()
 
     def remove_prefix(self) -> str:
         return self.lstrip("-")
 
-    def render_list(self) -> Dict[str,List]:
+    def render_list(self) -> Dict[str, List]:
         if "=" in self:
             _ = self.remove_prefix().split("=")
         else:
             _ = self.remove_prefix().split(" ")
 
-        return {_[0]:remove_empty_strings(_[1].split(","))}
-    
-    def render_kwarg(self) -> Dict[str,str]:
+        return {_[0]: remove_empty_strings(_[1].split(","))}
+
+    def render_kwarg(self) -> Dict[str, str]:
         if "=" in self:
             _ = self.remove_prefix().split("=")
         else:
             _ = self.remove_prefix().split(" ")
 
-        return {_[0]:_[1]}
+        return {_[0]: _[1]}
 
-    def render_flag(self) -> Dict[str,bool]:
-        return {self.remove_prefix():True}
-    
+    def render_flag(self) -> Dict[str, bool]:
+        return {self.remove_prefix(): True}
+
+
 class Parser(dict):
     """
     Parse arguments from script call
@@ -86,7 +89,8 @@ class Parser(dict):
             A list of arguments.
             ex : ['--name=John', '--age 32', '-v', '--list=item1,item2,item3']
         """
-        pattern = re.compile(r"(--\w+(?:=|\s+)[\w,]+|-\w+(?:=|\s+)[\w,]+|--\w+)")
+        pattern = re.compile(
+            r"(--\w+(?:=|\s+)[\w,]+|-\w+(?:=|\s+)[\w,]+|--\w+)")
         args = pattern.findall(" ".join(self._args))
         return args
 
@@ -96,7 +100,7 @@ class Parser(dict):
         args = [
             Argument(arg) for arg in args
         ]  # Convert the list of arguments into a list of Argument objects
-        
+
         for arg in args:
             if arg.is_list():
                 self.args |= arg.render_list()
@@ -104,6 +108,7 @@ class Parser(dict):
                 self.args |= arg.render_kwarg()
             elif arg.is_flag():
                 self.args |= arg.render_flag()
+
 
 if __name__ == "__main__":
     p = Parser(sys.argv)

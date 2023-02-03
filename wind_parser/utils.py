@@ -9,4 +9,3 @@ def remove_empty_strings(lst):
         elif item != "":
             result.append(item)
     return result
-
