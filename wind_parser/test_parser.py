@@ -25,11 +25,9 @@ def test_separate_arguments():
         "--name=Anthony",
         "--age=16",
         "--verbose",
-        "--list",
-        ["Paul", "Célia", "Mathieu"],
+        "--list=Paul,Célia,Mathieu",
         "--logging",
-        "-l",
-        ["this", "for", "while"],
+        "-l this,for,while"
     ]
 
 
@@ -101,7 +99,7 @@ def test_subcommand():
 
 # Test the Argument class
 def test_argument():
-    assert Argument("-v").is_key()
-    assert Argument("--help").is_key()
+    assert Argument("-v").is_flag()
+    assert Argument("--help").is_flag()
     assert Argument("-a=16").is_kwarg()
-    assert Argument([1, 2, 3]).is_value()
+    assert Argument([1, 2, 3]).is_list()
