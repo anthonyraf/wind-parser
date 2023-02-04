@@ -20,50 +20,62 @@ class Argument(str):
     def is_flag(self) -> bool:
         return self.startswith("-") and not self.is_kwarg()
 
-    def remove_prefix(self) -> str:
-        return self.lstrip("-")
+    def remove_prefix(self, enable: bool = False) -> str:
+        """
+        Remove the prefix of an argument (-- or -).
 
-    def render_list(self) -> Dict[str, List]:
+        Returns
+        -------
+        str : The argument without the prefix.
+        """
+        if not enable:
+            return self.lstrip("-")
+        return self
+
+    def render_list(self, show_prefix: bool = False) -> Dict[str, List]:
         if "=" in self:
-            _ = self.remove_prefix().split("=")
+            _ = self.remove_prefix(show_prefix).split("=")
         else:
-            _ = self.remove_prefix().split(" ")
+            _ = self.remove_prefix(show_prefix).split(" ")
 
         return {_[0]: remove_empty_strings(_[1].split(","))}
 
-    def render_kwarg(self) -> Dict[str, str]:
+    def render_kwarg(self, show_prefix: bool = False) -> Dict[str, str]:
         if "=" in self:
-            _ = self.remove_prefix().split("=")
+            _ = self.remove_prefix(show_prefix).split("=")
         else:
-            _ = self.remove_prefix().split(" ")
+            _ = self.remove_prefix(show_prefix).split(" ")
 
         return {_[0]: _[1]}
 
-    def render_flag(self) -> Dict[str, bool]:
-        return {self.remove_prefix(): True}
+    def render_flag(self, show_prefix: bool = False) -> Dict[str, bool]:
+        return {self.remove_prefix(show_prefix): True}
 
 
 class Parser(dict):
     """
-    Parse arguments from script call
+    A class that parses arguments from sys.argv and returns a
+    dictionary of arguments with their values.
 
-    Usage:
-        import sys
+    Parameters
+    ----------
+    args : List[str], optional
+        A list of arguments (from sys.argv by default)
 
-        p = Parser(sys.argv)
-        print(p)
-        print(f"Your name is %s"%p.name)
+    prefix : bool, optional
+        If True, the prefix will be kept in the keys (by default False)
 
-        $ python main.py --name=John --age=32 --hobbies test test1
+    Attributes
+    ----------
+    args : Dict[str, Union[str, List[str], bool]]
+        A dictionary of arguments with their values
 
-    Output :
-        {'name':'John', 'age':'32', 'hobbies': ['test', 'test1']}
-        Your name is John
     """
 
-    def __init__(self, args: List[str] = None):
+    def __init__(self, args: List[str] = None, prefix=False):
         if args is None:
             args = sys.argv
+        self.prefix = prefix  # If True, the prefix will be kept in the keys
         self._args = args[1:]
         self.args = {}
 
@@ -86,8 +98,10 @@ class Parser(dict):
         Returns
         -------
         List[str]
-            A list of arguments.
-            ex : ['--name=John', '--age 32', '-v', '--list=item1,item2,item3']
+            A list of arguments with their values inside a string
+            or just a key if it's a flag
+
+        ex : ['--name=John', '--age 32', '-v', '--list=item1,item2,item3']
         """
         pattern = re.compile(
             r"(--\w+(?:=|\s+)[\w,]+|-\w+(?:=|\s+)[\w,]+|--\w+)")
@@ -103,11 +117,11 @@ class Parser(dict):
 
         for arg in args:
             if arg.is_list():
-                self.args = {**self.args, **arg.render_list()}
+                self.args = {**self.args, **arg.render_list(self.prefix)}
             elif arg.is_kwarg():
-                self.args = {**self.args, **arg.render_kwarg()}
+                self.args = {**self.args, **arg.render_kwarg(self.prefix)}
             elif arg.is_flag():
-                self.args = {**self.args, **arg.render_flag()}
+                self.args = {**self.args, **arg.render_flag(self.prefix)}
 
 
 if __name__ == "__main__":
