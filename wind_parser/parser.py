@@ -55,7 +55,8 @@ class Argument(str):
 
 class Parser(dict):
     """
-    A class that parses arguments from sys.argv and returns a dictionary of arguments with their values.
+    A class that parses arguments from sys.argv and returns a 
+    dictionary of arguments with their values.
 
     Parameters
     ----------
@@ -98,8 +99,10 @@ class Parser(dict):
         Returns
         -------
         List[str]
-            A list of arguments with their values insid a string or just a key if it's a flag
-            ex : ['--name=John', '--age 32', '-v', '--list=item1,item2,item3']
+            A list of arguments with their values inside a string 
+            or just a key if it's a flag
+            
+        ex : ['--name=John', '--age 32', '-v', '--list=item1,item2,item3']
         """
         pattern = re.compile(
             r"(--\w+(?:=|\s+)[\w,]+|-\w+(?:=|\s+)[\w,]+|--\w+)")
