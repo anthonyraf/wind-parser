@@ -103,11 +103,11 @@ class Parser(dict):
 
         for arg in args:
             if arg.is_list():
-                self.args |= arg.render_list()
+                self.args = {**self.args, **arg.render_list()}
             elif arg.is_kwarg():
-                self.args |= arg.render_kwarg()
+                self.args = {**self.args, **arg.render_kwarg()}
             elif arg.is_flag():
-                self.args |= arg.render_flag()
+                self.args = {**self.args, **arg.render_flag()}
 
 
 if __name__ == "__main__":
