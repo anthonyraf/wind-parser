@@ -19,7 +19,6 @@ def test_separate_arguments():
     ]
 
     p = Parser(sys.argv)
-    print(p.separate_args())
 
     assert p.separate_args() == [
         "--name=Anthony",
@@ -103,3 +102,24 @@ def test_argument():
     assert Argument("--help").is_flag()
     assert Argument("-a=16").is_kwarg()
     assert Argument([1, 2, 3]).is_list()
+
+def test_argument_render_flag():
+    assert Argument("-v").render_flag() == {"v": True}
+    assert Argument("--help").render_flag() == {"help": True}
+
+    assert Argument('-v').render_flag(True) == {'-v': True}
+    assert Argument('--help').render_flag(True) == {'--help': True}
+
+def test_argument_render_kwarg():
+    assert Argument("-a=16").render_kwarg() == {"a": "16"}
+    assert Argument("--age=16").render_kwarg() == {"age": "16"}
+
+    assert Argument('-a=16').render_kwarg(True) == {'-a': '16'}
+    assert Argument('--age=16').render_kwarg(True) == {'--age': '16'}
+
+def test_argument_render_list():
+    assert Argument("--list a,b,c").render_list() == {"list": ["a", "b", "c"]}
+    assert Argument("--list=a,b,c").render_list() == {"list": ["a", "b", "c"]}
+
+    assert Argument("--list a,b,c").render_list(True) == {"--list": ["a", "b", "c"]}
+    assert Argument("--list=a,b,c").render_list(True) == {"--list": ["a", "b", "c"]}
