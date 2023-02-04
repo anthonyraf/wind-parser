@@ -23,7 +23,7 @@ class Argument(str):
     def remove_prefix(self, enable: bool = False) -> str:
         """
         Remove the prefix of an argument (-- or -).
-        
+
         Returns
         -------
         str : The argument without the prefix.
@@ -32,7 +32,6 @@ class Argument(str):
             return self.lstrip("-")
         return self
 
-    
     def render_list(self, show_prefix: bool = False) -> Dict[str, List]:
         if "=" in self:
             _ = self.remove_prefix(show_prefix).split("=")
@@ -62,7 +61,7 @@ class Parser(dict):
     ----------
     args : List[str], optional
         A list of arguments (from sys.argv by default)
-    
+
     prefix : bool, optional
         If True, the prefix will be kept in the keys (by default False)
 
@@ -70,13 +69,13 @@ class Parser(dict):
     ----------
     args : Dict[str, Union[str, List[str], bool]]
         A dictionary of arguments with their values
-    
+
     """
 
     def __init__(self, args: List[str] = None, prefix=False):
         if args is None:
             args = sys.argv
-        self.prefix = prefix # If True, the prefix will be kept in the keys
+        self.prefix = prefix  # If True, the prefix will be kept in the keys
         self._args = args[1:]
         self.args = {}
 
