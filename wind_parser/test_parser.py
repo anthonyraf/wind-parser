@@ -130,3 +130,9 @@ def test_argument_render_list():
     assert Argument("--list=a,b,c").render_list(True) == {
         "--list": ["a", "b", "c"]
     }
+
+def test_no_subcommand():
+    sys.argv = ["python"]
+    p = Parser(sys.argv)
+
+    assert p.subcommand is None
