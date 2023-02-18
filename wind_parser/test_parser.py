@@ -131,6 +131,7 @@ def test_argument_render_list():
         "--list": ["a", "b", "c"]
     }
 
+
 def test_no_subcommand():
     sys.argv = ["python"]
     p = Parser(sys.argv)

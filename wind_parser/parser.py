@@ -124,4 +124,3 @@ class Parser(dict):
                 self.args = {**self.args, **arg.render_kwarg(self.prefix)}
             elif arg.is_flag():
                 self.args = {**self.args, **arg.render_flag(self.prefix)}
-
