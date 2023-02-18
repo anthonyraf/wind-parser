@@ -82,6 +82,8 @@ class Parser(dict):
         if self._args and self._args[0][0] != "-":
             setattr(self, "subcommand", self._args[0])
             del self._args[0]
+        else:
+            setattr(self, "subcommand", None)
 
         if self._args:
             self.parse_values()
@@ -122,9 +124,3 @@ class Parser(dict):
                 self.args = {**self.args, **arg.render_kwarg(self.prefix)}
             elif arg.is_flag():
                 self.args = {**self.args, **arg.render_flag(self.prefix)}
-
-
-if __name__ == "__main__":
-    p = Parser(sys.argv)
-    print(p.age)
-    # print(f"Your name is %s"%p.name)
