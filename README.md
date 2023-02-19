@@ -6,6 +6,8 @@
 - Wind parser has a very simple and easy use
 - Wind parser supports keyword arguments, flags and keyword arguments that accept lists
 > This parser was created for the [speed](https://github.com/anthonyraf/speed-cli) framework.
+
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/anthonyraf-cautious-space-xylophone-gv6v9pj9xq5hrqg)
 ## Installation
 
 Installation with **pip** : 
