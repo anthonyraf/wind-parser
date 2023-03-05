@@ -20,7 +20,7 @@ def test_separate_arguments():
 
     p = Parser(sys.argv)
 
-    assert p.separate_args() == [
+    assert p.split_args() == [
         "--name=Anthony",
         "--age=16",
         "--verbose",
