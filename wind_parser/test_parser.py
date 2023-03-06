@@ -6,7 +6,7 @@ from .parser import Argument, Parser
 
 
 # Test separate_arguments method of Parser class
-def test_separate_arguments():
+def test_split_arguments():
     sys.argv = [
         "python",
         "--name=Anthony",
