@@ -9,8 +9,9 @@ __pycache__/
 #
 example.py
 
+.vscode/
 # Local test
-playground.py
+drafts/
 
 # Distribution / packaging
 .Python

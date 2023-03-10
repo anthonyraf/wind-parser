@@ -1,8 +1,12 @@
+"""
+Ancient version of the parser (for development purposes)
+"""
+
 import re
 import sys
 from typing import Any, Dict, List, Union
 
-from .utils import *
+from ._utils import *
 
 
 class Argument(str):
@@ -93,9 +97,9 @@ class Parser(dict):
             for arg in self.args:
                 setattr(self, arg, self.args[arg])
 
-    def separate_args(self) -> List[str]:
+    def split_args(self) -> List[str]:
         """
-        Separate arguments directly from sys.argv and return a list of key with its value(s) or just a key if it's a flag
+        Split arguments directly from sys.argv and return a list of key with its value(s) or just a key if it's a flag
 
         Returns
         -------
@@ -112,7 +116,7 @@ class Parser(dict):
 
     def parse_values(self):
         """Parses the argument list and transposes the values and keys into a dictionary"""
-        args = self.separate_args()
+        args = self.split_args()
         args = [
             Argument(arg) for arg in args
         ]  # Convert the list of arguments into a list of Argument objects
