@@ -1,5 +1,6 @@
 # Author: Anthony Rafidison <benjaraf006@gmail.com>
 
-from .parser import Parser
+from .parser import ArgParser
 
-__all__ = ["parser"]
+__doc__ = ""
+__version__ = "0.1.3"

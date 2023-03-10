@@ -12,6 +12,7 @@ keywords = ["cli", "parser"]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
+ply = "^3.11"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -20,3 +21,8 @@ pytest = "^7.2.1"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest]
+testpaths = ["tests"]
+
