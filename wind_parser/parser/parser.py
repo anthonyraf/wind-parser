@@ -51,14 +51,19 @@ class ArgParser(object):
                | KEY EQ VALUE
                | KEY
         '''
-        if "," in p[2]:
-            p[2] = remove_empty_strings(p[2].split(","))
-            p[2] = list(map(lambda s:s.strip(), p[2]))
+
 
         if len(p) == 2:
             p[0] = (p[1], True)
-        elif len(p) == 3:
+            return
+
+        if isinstance(p[2], str) and "," in p[2]:
+            p[2] = remove_empty_strings(p[2].split(","))
+            p[2] = list(map(lambda s:s.strip(), p[2]))
+        
+        if len(p) == 3:
             p[0] = (p[1], p[2])
+            
         else:
             p[0] = (p[1], p[3])
 
