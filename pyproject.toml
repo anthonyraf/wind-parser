@@ -12,6 +12,7 @@ keywords = ["cli", "parser"]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
+ply = "^3.11"
 
 
 [tool.poetry.group.dev.dependencies]
