@@ -9,6 +9,7 @@ __pycache__/
 #
 example.py
 
+.vscode/
 # Local test
 drafts/
 
