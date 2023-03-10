@@ -2,7 +2,6 @@
 Ancient version of the parser (for development purposes)
 """
 
-
 import re
 import sys
 from typing import Any, Dict, List, Union
